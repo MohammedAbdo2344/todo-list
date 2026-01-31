@@ -1,36 +1,190 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# TaskFlow - Modern Task Management Application
+
+A comprehensive task management web application built with Next.js, featuring multi-profile support, JWT authentication, and a modern SaaS dashboard design.
+
+## Features
+
+### 🎯 Core Functionality
+- **Multi-Profile System**: Users can create and switch between multiple profiles
+- **Task Management**: Create, edit, delete, and organize tasks with status tracking
+- **Categories**: Organize tasks into color-coded categories
+- **Priority Levels**: Set task priorities (Low, Medium, High)
+- **Status Tracking**: Track tasks through To Do → In Progress → Completed
+- **Soft Delete & Recovery**: Deleted tasks can be restored from the trash
+
+### 🔐 Authentication
+- JWT-based authentication system
+- User registration with profile information
+- Secure session management
+- Automatic redirect for authenticated/unauthenticated users
+
+### 📊 Dashboard
+- Statistics overview (total tasks, completion percentages)
+- Recent tasks display
+- Profile switcher
+- Quick action buttons
+
+### 🎨 UI/UX Features
+- Modern SaaS dashboard design
+- Responsive layout (desktop, tablet, mobile)
+- Clean typography and spacing
+- Status-based color coding
+- Priority indicators
+- Accessible color contrast
+- Error states and empty states
+
+## Tech Stack
+
+- **Frontend**: Next.js 16, React 19, TypeScript
+- **Styling**: Tailwind CSS
+- **UI Components**: Headless UI, Heroicons
+- **Forms**: React Hook Form, Zod validation
+- **HTTP Client**: Axios
+- **State Management**: React hooks
+- **Icons**: Heroicons, Lucide React
+
+## Project Structure
+
+```
+app/
+├── api/                    # API routes
+│   ├── auth/              # Authentication endpoints
+│   ├── profiles/          # Profile management
+│   ├── categories/        # Category management
+│   └── tasks/             # Task management
+├── dashboard/             # Main dashboard page
+├── login/                 # Login page
+├── register/              # Registration page
+├── tasks/                 # Task management page
+├── categories/            # Category management page
+├── deleted-tasks/         # Deleted tasks recovery
+├── settings/              # Profile & account settings
+└── layout.tsx             # Root layout with error boundary
+
+components/
+├── layout/                # Layout components
+│   ├── Header.tsx
+│   └── Sidebar.tsx
+├── tasks/                 # Task-related components
+│   ├── TaskForm.tsx
+│   └── TaskCard.tsx
+├── categories/            # Category-related components
+│   ├── CategoryForm.tsx
+│   └── CategoryCard.tsx
+└── ui/                    # Reusable UI components
+    ├── Button.tsx
+    ├── Input.tsx
+    ├── Modal.tsx
+    ├── Badge.tsx
+    ├── Card.tsx
+    ├── EmptyState.tsx
+    ├── LoadingSpinner.tsx
+    └── ErrorBoundary.tsx
+
+lib/
+├── services/              # API service layer
+│   ├── api.ts            # Axios configuration
+│   ├── auth.ts           # Authentication service
+│   ├── profiles.ts       # Profile service
+│   ├── categories.ts     # Category service
+│   └── tasks.ts          # Task service
+└── utils.ts               # Utility functions
+```
 
 ## Getting Started
 
-First, run the development server:
+### Prerequisites
+- Node.js 18+ 
+- npm or yarn
 
+### Installation
+
+1. Clone the repository:
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+git clone <repository-url>
+cd todo-frontend
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+2. Install dependencies:
+```bash
+npm install
+```
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+3. Start the development server:
+```bash
+npm run dev
+```
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+4. Open [http://localhost:3000](http://localhost:3000) in your browser.
 
-## Learn More
+## Usage
 
-To learn more about Next.js, take a look at the following resources:
+### Authentication
+- Register a new account or use existing credentials:
+  - Email: `user@example.com`
+  - Password: `password`
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+### Navigation
+- **Dashboard**: Overview of tasks and statistics
+- **Tasks**: Full task management with filtering
+- **Categories**: Manage task categories
+- **Deleted Tasks**: Restore permanently deleted tasks
+- **Settings**: Update profile and account information
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+### Features
+- Create multiple profiles for different contexts
+- Organize tasks with categories and priorities
+- Track task progress through status updates
+- Filter tasks by status, category, or search terms
+- Restore accidentally deleted tasks
 
-## Deploy on Vercel
+## API Structure
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+The application uses mock API endpoints in `app/api/` for demonstration:
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+- `POST /api/auth` - Login and registration
+- `GET/POST /api/profiles` - Profile management
+- `GET/POST /api/categories` - Category management  
+- `GET/POST /api/tasks` - Task operations
+- `PUT/DELETE /api/tasks/[id]` - Individual task operations
+
+## Development
+
+### Available Scripts
+- `npm run dev` - Start development server
+- `npm run build` - Build for production
+- `npm run start` - Start production server
+- `npm run lint` - Run ESLint
+
+### Component Architecture
+- Component-based design with reusable UI components
+- Service layer for API calls
+- TypeScript for type safety
+- Responsive design with Tailwind CSS
+
+### Error Handling
+- Global error boundary for unhandled errors
+- Form validation with error states
+- API error handling with user feedback
+- Empty states for better UX
+
+## Deployment
+
+The application can be deployed on any platform that supports Next.js:
+
+- [Vercel](https://vercel.com) (recommended)
+- [Netlify](https://netlify.com)
+- [AWS Amplify](https://aws.amazon.com/amplify/)
+- Self-hosted with Docker
+
+## Contributing
+
+1. Fork the repository
+2. Create a feature branch
+3. Make your changes
+4. Add tests if applicable
+5. Submit a pull request
+
+## License
+
+This project is licensed under the MIT License.
