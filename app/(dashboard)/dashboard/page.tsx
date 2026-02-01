@@ -6,7 +6,7 @@ import { Card, CardContent, CardHeader, Badge } from '@/components/ui';
 import { Skeleton, DashboardSkeleton } from '@/components/ui/Skeleton';
 import { dashboardService, DashboardTask } from '@/lib/services/dashboard-service';
 import { getStatusColor } from '@/lib/utils';
-import { useDashboard } from './layout';
+import { useDashboard } from '../layout';
 
 export default function DashboardPage() {
   const { user, currentProfile } = useDashboard();
@@ -35,7 +35,7 @@ export default function DashboardPage() {
         dashboardService.getDashboardStats(user.id),
         dashboardService.getRecentTasks(user.id)
       ]);
-      
+
       setStats(dashboardStats);
       setTasks(recentTasks);
     } catch (error) {
@@ -46,7 +46,7 @@ export default function DashboardPage() {
   };
 
   if (!user) {
-    return <div>Loading...</div>;
+    return <DashboardSkeleton />;
   }
 
   if (isLoading) {
@@ -74,7 +74,7 @@ export default function DashboardPage() {
             <div className="text-2xl font-bold text-gray-900">{stats.total}</div>
           </CardContent>
         </Card>
-        
+
         <Card>
           <CardHeader className="pb-2">
             <div className="text-sm font-medium text-gray-600">To Do</div>
@@ -83,7 +83,7 @@ export default function DashboardPage() {
             <div className="text-2xl font-bold text-gray-900">{stats.todo}%</div>
           </CardContent>
         </Card>
-        
+
         <Card>
           <CardHeader className="pb-2">
             <div className="text-sm font-medium text-gray-600">In Progress</div>
@@ -92,7 +92,7 @@ export default function DashboardPage() {
             <div className="text-2xl font-bold text-yellow-600">{stats.inProgress}%</div>
           </CardContent>
         </Card>
-        
+
         <Card>
           <CardHeader className="pb-2">
             <div className="text-sm font-medium text-gray-600">Completed</div>

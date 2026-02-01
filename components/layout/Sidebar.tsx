@@ -21,9 +21,9 @@ export function Sidebar({ onCreateTask, onCreateCategory }: SidebarProps) {
 
   const navigation = [
     { name: 'Dashboard', href: '/dashboard', icon: HomeIcon },
-    { name: 'Tasks', href: '/tasks', icon: ClipboardDocumentCheckIcon },
-    { name: 'Categories', href: '/categories', icon: FolderIcon },
-    { name: 'Deleted Tasks', href: '/deleted-tasks', icon: TrashIcon },
+    { name: 'Tasks', href: '/dashboard/tasks', icon: ClipboardDocumentCheckIcon },
+    { name: 'Categories', href: '/dashboard/categories', icon: FolderIcon },
+    { name: 'Deleted Tasks', href: '/dashboard/deleted-tasks', icon: TrashIcon },
   ];
 
   const isActive = (href: string) => {
