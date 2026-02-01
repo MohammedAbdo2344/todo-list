@@ -1,13 +1,18 @@
+import { tasksApi } from '@/app/api/profiles/[profile_id]/tasks/route';
 import { api } from './api';
 
+export interface TaskCategory {
+  id: number;
+  name: string;
+}
+
 export interface Task {
-  id: string;
+  id: number;
   title: string;
   description: string;
   status: 'todo' | 'in-progress' | 'completed';
   priority: 'low' | 'medium' | 'high';
-  categoryId: string;
-  profileId: string;
+  category: TaskCategory;
   deletedAt: string | null;
   createdAt: string;
   updatedAt: string;
@@ -15,63 +20,55 @@ export interface Task {
 
 export interface CreateTaskData {
   title: string;
-  description?: string;
-  status?: 'todo' | 'in-progress' | 'completed';
-  priority?: 'low' | 'medium' | 'high';
-  categoryId: string;
-  profileId: string;
+  description: string;
+  priority: 'high' | 'medium' | 'low';
+  status: 'to-do' | 'in-progress' | 'completed';
+  category_id: number;
 }
 
 export interface UpdateTaskData {
   title?: string;
   description?: string;
-  status?: 'todo' | 'in-progress' | 'completed';
-  priority?: 'low' | 'medium' | 'high';
-  categoryId?: string;
+  priority?: 'high' | 'medium' | 'low';
+  status?: 'to-do' | 'in-progress' | 'completed';
+  category_id?: number;
 }
 
 export interface TaskFilters {
-  profileId: string;
-  categoryId?: string;
+  profileId: number;
+  categoryId?: number;
   status?: 'todo' | 'in-progress' | 'completed';
   deleted?: boolean;
 }
 
 export const taskService = {
-  async getTasks(filters: TaskFilters): Promise<Task[]> {
-    const params = new URLSearchParams();
-    params.append('profileId', filters.profileId);
-    
-    if (filters.categoryId) params.append('categoryId', filters.categoryId);
-    if (filters.status) params.append('status', filters.status);
-    if (filters.deleted !== undefined) params.append('deleted', filters.deleted.toString());
-    
-    const response = await api.get(`/api/tasks?${params}`);
-    return response.data;
+  async getTasks(profileId: number): Promise<Task[]> {
+    const response = await tasksApi.getTasks(profileId);
+    return response.data || [];
   },
 
-  async createTask(data: CreateTaskData): Promise<Task> {
-    const response = await api.post('/api/tasks', data);
-    return response.data;
+  async createTask(profileId: number, data: CreateTaskData): Promise<Task> {
+    const response = await tasksApi.createTask(profileId, data);
+    return response;
   },
 
-  async updateTask(id: string, data: UpdateTaskData): Promise<Task> {
-    const response = await api.put(`/api/tasks/${id}`, data);
-    return response.data;
+  async updateTask(profile_id: number, task_id: number, data: UpdateTaskData): Promise<Task> {
+    const response = await tasksApi.updateTask(profile_id, task_id, data);
+    return response;
   },
 
-  async deleteTask(id: string): Promise<Task> {
-    const response = await api.delete(`/api/tasks/${id}`);
-    return response.data;
+  async deleteTask(profile_id: number, task_id: number): Promise<Task> {
+    const response = await tasksApi.deleteTask(profile_id, task_id);
+    return response;
   },
 
-  async restoreTask(id: string): Promise<Task> {
+  async restoreTask(id: number): Promise<Task> {
     const response = await api.delete(`/api/tasks/${id}?restore=true`);
     return response.data;
   },
 
   // total and percentage of tasks
-  async getTaskStats(profileId: string): Promise<{ total: number; todo: number; inProgress: number; completed: number }> {
+  async getTaskStats(profileId: number): Promise<{ total: number; todo: number; inProgress: number; completed: number }> {
     try {
       const [todoResponse, completedResponse, inProgressResponse] = await Promise.all([
         api.get(`/api/profiles/${profileId}/tasks/todo/percentage`),

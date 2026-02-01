@@ -67,10 +67,6 @@ export const authService = {
     return response.data;
   },
 
-  async getUserProfile(): Promise<{ user: User; profiles: any[] }> {
-    const response = await api.get('/api/auth/user-profile');
-    return response.data;
-  },
 
   clearAuth(): void {
     if (typeof window !== 'undefined') {      
@@ -92,7 +88,13 @@ export const authService = {
       if (userCookie) {
         try {
           const userValue = decodeURIComponent(userCookie.split('=')[1]);
-          return JSON.parse(userValue);
+          const user = JSON.parse(userValue);
+          
+          // Extract and save name and id
+          if (user.id && user.name) {
+            console.log('User data:', { id: user.id, name: user.name });
+            return user;
+          }
         } catch (error) {
           console.error('Error parsing user cookie:', error);
         }
@@ -120,5 +122,16 @@ export const authService = {
       return !!userCookie;
     }
     return false;
+  },
+
+  getAccessToken(): string | null {
+    if (typeof window !== 'undefined') {
+      // Get token from cookie
+      const tokenCookie = document.cookie
+        .split('; ')
+        .find(row => row.startsWith('token='));
+      return tokenCookie ? tokenCookie.split('=')[1] : null;
+    }
+    return null;
   },
 };
